@@ -30,8 +30,9 @@ public class MusicAccountRetriever {
      */
     public Future<AmazonMusicAccount> retrieveAccount(String accountID) {
         ExecutorService accountExecutor = Executors.newCachedThreadPool();
+        ImportAccountTask importAccountTask = new ImportAccountTask(accountService, accountID);
 
-        Future<AmazonMusicAccount> result = null;
+        Future<AmazonMusicAccount> result = accountExecutor.submit(importAccountTask);
         accountExecutor.shutdown();
 
         return result;
